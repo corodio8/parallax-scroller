@@ -1,14 +1,15 @@
 function WallSpritesPool() {
   this.cacheSize = 6;
-  this.edgeCacheSize = 2;
+  this.edgeCacheSize = 6;
 
   this.createWindows();
   this.createDecorations();
   this.createFrontEdges();
   this.createBackEdges();
+  this.createSteps();
 };
 
-//Create Window Array
+//Create Arrays
 WallSpritesPool.prototype.createWindows = function() {
   this.windows = [];
 
@@ -18,7 +19,6 @@ WallSpritesPool.prototype.createWindows = function() {
   this.shuffle(this.windows);
 }; 
 
-//Create Deco Array
 WallSpritesPool.prototype.createDecorations = function() {
   this.decorations = [];
 
@@ -29,17 +29,15 @@ WallSpritesPool.prototype.createDecorations = function() {
   this.shuffle(this.decorations);
 };
 
-//Create Front Edge Array
 WallSpritesPool.prototype.createFrontEdges = function() {
   this.frontEdges = [];
 
-  this.AddDecorationSprites(this.cacheSize,'edge_01');
-  this.AddDecorationSprites(this.cacheSize,'edge_02');
+  this.AddFrontEdgeSprites(this.cacheSize,'edge_01');
+  this.AddFrontEdgeSprites(this.cacheSize,'edge_02');
 
   this.shuffle(this.frontEdges);
 };
 
-//Create Back Edge Array
 WallSpritesPool.prototype.createBackEdges = function() {
   this.backEdges = [];
 
@@ -49,7 +47,13 @@ WallSpritesPool.prototype.createBackEdges = function() {
   this.shuffle(this.backEdges);
 };
 
-//Add Window Sprites
+WallSpritesPool.prototype.createSteps = function() {
+  this.steps = [];
+  this.AddStepSprites(this.cacheSize, 'step_01');
+
+};
+
+//Add Sprites
 WallSpritesPool.prototype.AddWindowSprites = function(amount, frameId) {
   for (var i = 0; i < amount; i++) {
     var sprite = PIXI.Sprite.fromFrame(frameId);
@@ -57,7 +61,6 @@ WallSpritesPool.prototype.AddWindowSprites = function(amount, frameId) {
   }
 };
 
-//Add Deco Sprites
 WallSpritesPool.prototype.AddDecorationSprites = function(amount, frameId) {
   for (var i = 0; i < amount; i++) {
     var sprite = PIXI.Sprite.fromFrame(frameId);
@@ -65,7 +68,6 @@ WallSpritesPool.prototype.AddDecorationSprites = function(amount, frameId) {
   }
 };
 
-//Add Front Edge Sprites
 WallSpritesPool.prototype.AddFrontEdgeSprites = function(amount, frameId) {
   for (var i = 0; i < amount; i++) {
     var sprite = PIXI.Sprite.fromFrame(frameId);
@@ -73,7 +75,6 @@ WallSpritesPool.prototype.AddFrontEdgeSprites = function(amount, frameId) {
   }
 };
 
-//Add Back Edge Sprites
 WallSpritesPool.prototype.AddBackEdgeSprites = function(amount, frameId) {
   for (var i = 0; i < amount; i++) {
     var sprite = PIXI.Sprite.fromFrame(frameId);
@@ -83,7 +84,15 @@ WallSpritesPool.prototype.AddBackEdgeSprites = function(amount, frameId) {
   }
 };
 
-//Borrow-Remove Windows
+WallSpritesPool.prototype.AddStepSprites = function(amount, frameId) {
+  for (var i = 0; i < amount; i++) {
+    var sprite = PIXI.Sprite.fromFrame(frameId);
+    sprite.anchor.y = 0.25;
+    this.steps.push(sprite);
+  }
+};
+
+//Borrow-Remove Sprites from pools
 WallSpritesPool.prototype.borrowWindow = function() {
   return this.windows.shift();
 };
@@ -92,7 +101,6 @@ WallSpritesPool.prototype.returnWindow = function(sprite) {
   return this.windows.push(sprite);
 };
 
-//Borrow-Remove Decorations
 WallSpritesPool.prototype.borrowDecoration = function() {
   return this.decorations.shift();
 };
@@ -101,7 +109,6 @@ WallSpritesPool.prototype.returnDecoration = function(sprite) {
   return this.decorations.push(sprite);
 };
 
-//Borrow-Remove Front Edges
 WallSpritesPool.prototype.borrowFrontEdge = function() {
   return this.frontEdges.shift();
 };
@@ -110,13 +117,20 @@ WallSpritesPool.prototype.returnFrontEdge = function(sprite) {
   return this.frontEdges.push(sprite);
 };
 
-//Borrow-Remove Back Edges
 WallSpritesPool.prototype.borrowBackEdge = function() {
   return this.backEdges.shift();
 };
 
 WallSpritesPool.prototype.returnBackEdge = function(sprite) {
   return this.backEdges.push(sprite);
+};
+
+WallSpritesPool.prototype.borrowStep = function() {
+  return this.steps.shift();
+};
+
+WallSpritesPool.prototype.returnStep = function(sprite) {
+  return this.steps.push(sprite);
 };
 
 

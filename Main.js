@@ -37,10 +37,18 @@ Main.prototype.generateTestWallSpan = function() {
     this.pool.borrowFrontEdge,
     this.pool.borrowWindow,
     this.pool.borrowDecoration,
-    this.pool.borrowWindow,
-    this.pool.borrowDecoration,
+    this.pool.borrowStep,
     this.pool.borrowWindow,
     this.pool.borrowBackEdge
+  ];
+
+  var yPos = [
+    128, 
+    128,
+    128,
+    192,
+    192,
+    192
   ];
 
   for (var i = 0; i < lookupTable.length; i++) {
@@ -48,23 +56,22 @@ Main.prototype.generateTestWallSpan = function() {
 
     var sprite = func.call(this.pool);
     sprite.position.x = 32 + (i * 64);
-    sprite.position.y = 128;
+    sprite.position.y = yPos[i];
 
-    this.wallSlices.push(srite);
+    this.wallSlices.push(sprite);
 
     this.stage.addChild(sprite);
   }
 };
 
-Main.protoype.clearTestWallSpan = function() {
+Main.prototype.clearTestWallSpan = function() {
   var lookupTable = [
-    this.pool.borrowFrontEdge,
-    this.pool.borrowWindow,
-    this.pool.borrowDecoration,
-    this.pool.borrowWindow,
-    this.pool.borrowDecoration,
-    this.pool.borrowWindow,
-    this.pool.borrowBackEdge
+    this.pool.returnFrontEdge,
+    this.pool.returnWindow,
+    this.pool.returnDecoration,
+    this.pool.returnStep,
+    this.pool.returnWindow,
+    this.pool.returnBackEdge
   ];
 
   for (var i = 0; i < lookupTable.length; i++) {
