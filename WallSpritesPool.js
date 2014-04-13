@@ -9,7 +9,7 @@ function WallSpritesPool() {
   this.createSteps();
 };
 
-//Create Arrays
+//Create Arrays, this is the actual creation of the pools.
 WallSpritesPool.prototype.createWindows = function() {
   this.windows = [];
 
@@ -53,7 +53,7 @@ WallSpritesPool.prototype.createSteps = function() {
 
 };
 
-//Add Sprites
+//Add Sprites, these functions contain the code that does the generation of a single element from images/spritesheet resources.
 WallSpritesPool.prototype.AddWindowSprites = function(amount, frameId) {
   for (var i = 0; i < amount; i++) {
     var sprite = PIXI.Sprite.fromFrame(frameId);
