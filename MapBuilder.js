@@ -4,43 +4,45 @@ function MapBuilder(walls) {
 }
 
 MapBuilder.WALL_HEIGHTS = [
-  256,
-  224,
-  192,
-  160,
-  128
+  256, //0
+  224, //1
+  192, //2
+  160, //3
+  128  //4
 ];
 
+MapBuilder.MAP_SIZE = 100;
+MapBuilder.MAX_WALL_SIZE = 10;
+MapBuilder.MIX_WALL_SIZE = 2;
+MapBuilder.MAX_GAP_SIZE = 3;
+
 MapBuilder.prototype.createMap = function() {
-  this.createWallSpan(3, 9, true);
-  this.createGap(1);
-  this.createWallSpan(1, 3);
-  this.createGap(1);
-  this.createWallSpan(2, 8);
-  this.createGap(1);
-  this.createSteppedWallSpan(2, 5, 8);
-  this.createGap(1);
-  this.createWallSpan(1, 10);
-  this.createGap(1);
-  this.createWallSpan(2, 6);
-  this.createGap(1);
-  this.createWallSpan(1, 8);
-  this.createGap(1);
-  this.createWallSpan(2, 6);
-  this.createGap(1);
-  this.createWallSpan(1, 8);
-  this.createGap(1);
-  this.createWallSpan(3, 10);
-  this.createGap(1);
-  this.createWallSpan(1, 12);
-  this.createGap(2);
-  this.createSteppedWallSpan(2, 3, 3);
-  this.createGap(2);
-  this.createWallSpan(1, 8);
-  this.createGap(2);
-  this.createWallSpan(2, 6);
-  this.createGap(3);
-  this.createWallSpan(1, 12);
+  var slicesLeft = MapBuilder.MAP_SIZE;
+  
+  
+  while (slicesLeft > 0) {
+    var heightIndex = Math.floor(Math.random() * 5)
+
+    if (slicesLeft < MapBuilder.MAX_WALL_SIZE + this.MAX_GAP_SIZE) {
+      this.createWallSpan(heightIndex, slicesLeft, false, true);
+
+      slicesLeft = 0;
+    } else {
+      var wallLength = Math.ceil(Math.random() * MapBuilder.MAX_WALL_SIZE);
+      if (wallLength < 2) { wallLength = 2};
+      this.createWallSpan(heightIndex, wallLength); 
+
+      slicesLeft = slicesLeft - wallLength;
+
+      var gapLength = Math.ceil(Math.random() * MapBuilder.MAX_GAP_SIZE);
+      this.createGap(gapLength);
+
+      slicesLeft = slicesLeft - gapLength;
+
+    }
+  }
+    
+
 }
 
 MapBuilder.prototype.addWallFront = function(heightIndex) {
