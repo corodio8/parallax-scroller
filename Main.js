@@ -5,13 +5,24 @@ function Main() {
     384,
     document.getElementById('game-canvas')
     );
+
+  this.scrollSpeed = Main.MIN_SCROLL_SPEED;
+
   this.loadSpriteSheet();
 }
 
-Main.SCROLL_SPEED = 5;
+Main.MIN_SCROLL_SPEED = 5;
+Main.MAX_SCROLL_SPEED = 15;
+Main.SCROLL_ACCELERATION = 0.005;
+
 
 Main.prototype.update = function() {
-  this.scroller.moveViewportX(5);
+  this.scroller.moveViewportX(this.scrollSpeed);
+  this.scrollSpeed += Main.SCROLL_ACCELERATION;
+  if (this.scrollSpeed > Main.MAX_SCROLL_SPEED) {
+    this.scrollSpeed = Main.MAX_SCROLL_SPEED;
+  }
+
   this.renderer.render(this.stage);
   requestAnimFrame(this.update.bind(this));
 }
